@@ -1,20 +1,96 @@
-// Question2.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#define _CRT_SECURE_NO_WARNINGS
+#include "stdio.h"
+#include "stdlib.h"
 
-#include <iostream>
+//Defines
+#define TRUE 1
+#define FALSE 0
 
-int main()
+#define N 4
+
+//Types
+typedef unsigned char bool;
+
+
+//Local Declarations
+void PrintArray(const unsigned char in_pu8Array[][N]);
+int path_exists(unsigned char mat[][N], int rows, int cols);
+
+/*****************MAIN*****************************/
+void main()
 {
-    std::cout << "Hello World!\n";
+	int i32row = 0, i32col = 0;
+	int i32Tmp;
+	unsigned char au8Array[N][N];
+	unsigned char u8Tmp;
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			do {
+				printf("Set 0 or 1 to array cell [%d][%d]\n", i, j);
+				i32Tmp = scanf("%hhu", &u8Tmp);
+			} while (u8Tmp > 1);
+			au8Array[i][j]= u8Tmp;
+		}
+	}
+
+	PrintArray(au8Array);
+	if (path_exists(au8Array, 0, 0))
+	{
+		printf("Found path\n");
+	}
+	else
+	{
+		printf("Not found path\n");
+	}
+	exit(0);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+//Service functions
+void PrintArray(const unsigned char in_pu8Array[][N])
+{
+	if (in_pu8Array == NULL)
+	{
+		printf("Passed array empty of have not correct lenght\n");
+		return;
+	}
+	
+	for (int i = 0; i < N; i++)
+	{
+		printf("| ");
+		for (int j = 0; j < N; j++)
+		{
+			printf("%d | ", in_pu8Array[i][j]);
+		}
+		printf("\n");
+	}
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+int path_exists(unsigned char mat[][N], int rows, int cols)
+{
+	int i32Ret = -1;
+	//Case when we "arived" to cell [N-1][N-1] with value 1
+	if ((rows == N - 1) && (cols == N - 1) && (mat[rows][cols] == 1))
+	{
+		return 1;
+	}
+	
+	//check rigth cell
+	if (((cols + 1) < N) && (mat[rows][cols + 1] == 1))
+	{
+		i32Ret = path_exists(&(*mat), rows, cols+1);
+	}
+	//check down cell
+	if (((rows + 1) < N) && (mat[rows + 1][cols] == 1))
+	{
+		i32Ret = path_exists(&(*mat), rows+1, cols);
+	}
+	//check right diagonal
+	if (((rows + 1) < N) && ((cols + 1) < N) && (mat[rows + 1][cols + 1] == 1))
+	{
+		i32Ret = path_exists(&(*mat), rows + 1, cols + 1);
+	}
+	return i32Ret;
+}
