@@ -70,7 +70,12 @@ void PrintArray(const unsigned char in_pu8Array[][N])
 
 int path_exists(unsigned char mat[][N], int rows, int cols)
 {
-	int i32Ret = -1;
+	int i32Ret = 0;
+	//if in initial row we dont have 1 not reason to continue
+	if (mat[0][0] != 1)
+	{
+		return 0;
+	}
 	//Case when we "arived" to cell [N-1][N-1] with value 1
 	if ((rows == N - 1) && (cols == N - 1) && (mat[rows][cols] == 1))
 	{
