@@ -1,20 +1,44 @@
-// Question2.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#define _CRT_SECURE_NO_WARNINGS
+#include "stdio.h"
 
-#include <iostream>
+//Defines
+#define TRUE 1
+#define FASLE 0
 
-int main()
+#define MAX_ARRAY_COL_ROW 10
+
+//Types
+typedef unsigned char bool;
+
+
+//Local Declarations
+bool GetArrayFromUser(unsigned char* inout_pu8Array, int* out_i32N)
 {
-    std::cout << "Hello World!\n";
+	bool bRet = TRUE;
+	int i32Tmp = 0;
+	unsigned char u8Tmp = 0;
+	do {
+		printf("Enter size of square array:\n");
+		i32Tmp = sscanf("%d", out_i32N);
+	} while ((*out_i32N < 0) || (*out_i32N > MAX_ARRAY_COL_ROW));
+	
+	for (int i = 0; i < *out_i32N; i++)
+	{
+		for (int j = 0; j < *out_i32N; j++)
+		{
+			do {
+				printf("Set 0 or 1 to array cell [%d][%d]\n",i,j);
+				i32Tmp = sscanf("%u", &u8Tmp);
+			} while (u8Tmp > 1);
+		}
+	}
+	
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void main()
+{
+	int i32row = 0, i32col = 0;
+	unsigned char* pu8Array = NULL;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+}
