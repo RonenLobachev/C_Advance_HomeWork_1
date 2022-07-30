@@ -1,20 +1,81 @@
-// Question3.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#define _CRT_SECURE_NO_WARNINGS
+#include "stdio.h"
 
-#include <iostream>
-
-int main()
+int stringCompare(const char* str1, const char* str2)
 {
-    std::cout << "Hello World!\n";
+	if (str1 == NULL || str2 == NULL)
+	{
+		printf("NULL pointer !\n");
+		return -2;
+	}
+
+	if (*str1 != *str2)
+	{
+		//Case: str1 shorter then str2
+		if (*str1 == '\0')
+		{
+			return -1;
+		}
+		//Case: str2 shorter then str1
+		if (*str2 == '\0')
+		{
+			return 1;
+		}
+		if (*str1 < *str2)
+		{
+			return -1;
+		}
+		if (*str1 > *str2)
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		if (*str1 == '\0')
+		{
+			return 0;
+		}
+		else
+		{
+			return stringCompare(str1 + 1, str2 + 1);
+		}
+	}
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void HowBigger(int i32Val)
+{
+	switch (i32Val)
+	{
+	case -1:
+		printf("First string smaller then second\n");
+		break;
+	case 1:
+		printf("First string bigger then second\n");
+		break;
+	case 0:
+		printf("Both strings equal\n");
+		break;
+	default:
+		printf("Some major error ocured\n");
+		break;
+	}
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void main()
+{
+	int i32Res = 0;
+	char str1[30];
+	char str2[30];
+
+	while (1)
+	{
+		printf("Please insert first string. Max lenght is 30 chars\n");
+		i32Res = scanf("%s", str1);
+		printf("Please insert seconde string. Max lenght is 30 chars\n");
+		i32Res = scanf("%s", str2);
+		i32Res = stringCompare(str1, str2);
+		HowBigger(i32Res);
+		printf("\n\n");
+	}
+}
