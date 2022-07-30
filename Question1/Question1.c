@@ -1,20 +1,53 @@
-// Question1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include <stdio.h>
+#include <stdlib.h>
 
-#include <iostream>
+#define OPTION_1
+
+void generate(char* charSet, int charSetSize, char* phrase, int phraseLen)
+{
+	//halting condition
+	if (phraseLen == 0)
+	{
+		printf("%s\n", phrase);
+		return;
+	}
+
+	for (int i = 0; i < charSetSize; i++)
+	{
+		//Trick - static variable create and initilized only on first call to function
+		//So all other recursive call will have copy of this variable with last modifed value
+		//In this case we can "fill" phrase array from start to end
+		//Other option is "fill" phrase array is use next line - "phrase[phraseLen - 1] = charSet[i]"
+		//Because on every recursive call will be passed phraseLen - 1 we fill phrase array from end to start
+		//Its more compact but less readable
+		#ifdef OPTION_1
+				static unsigned int u32RecursionDepth = 0;
+				phrase[u32RecursionDepth++] = charSet[i];
+				generate(charSet, charSetSize, phrase, phraseLen - 1);
+				u32RecursionDepth--;
+		#else
+				phrase[phraseLen - 1] = charSet[i];
+				generate(charSet, charSetSize, phrase, phraseLen - 1);
+		#endif
+	}
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	const int MAX_PHRASE_LEN = 3;
+	char* phrase = (char*)calloc(MAX_PHRASE_LEN + 1, sizeof(*phrase));
+	if (phrase == NULL)
+		exit(1);
+	char charSet[] = { '1','2','3','4' };
+	int charSetSize = sizeof(charSet) / sizeof(charSet[0]);
+
+	for (int i = 1; i <= MAX_PHRASE_LEN; i++)
+	{
+		printf("all sequences of length %d:\n", i);
+		printf("##########################\n");
+		generate(charSet, charSetSize, phrase, i);
+	}
+
+	free(phrase);
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
