@@ -88,12 +88,12 @@ int path_exists(unsigned char mat[][N], int rows, int cols)
 		i32Ret = path_exists(&(*mat), rows, cols+1);
 	}
 	//check down cell
-	if (((rows + 1) < N) && (mat[rows + 1][cols] == 1))
+	if ((!i32Ret) && ((rows + 1) < N) && (mat[rows + 1][cols] == 1))
 	{
 		i32Ret = path_exists(&(*mat), rows+1, cols);
 	}
 	//check right diagonal
-	if (((rows + 1) < N) && ((cols + 1) < N) && (mat[rows + 1][cols + 1] == 1))
+	if ((!i32Ret) && ((rows + 1) < N) && ((cols + 1) < N) && (mat[rows + 1][cols + 1] == 1))
 	{
 		i32Ret = path_exists(&(*mat), rows + 1, cols + 1);
 	}
